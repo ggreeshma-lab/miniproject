@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Gather&Go</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .admin-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            color: #0f172a; /* Force dark text on white background */
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        th {
+            background-color: var(--gray-light);
+            font-weight: 600;
+        }
+
+        .btn-small {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            margin-right: 0.5rem;
+        }
+
+        .btn-danger {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+        
+        #login-section {
+            max-width: 400px;
+            margin: 4rem auto;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="index.html" class="logo">Gather&Go</a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="events.html" class="nav-link">Events</a>
+            <a href="#" class="nav-link" id="logout-btn" style="display: none;" onclick="logout()">Logout</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Login Section -->
+        <div id="login-section" class="form-container">
+            <h2 style="margin-bottom: 1.5rem; text-align: center;">Admin Login</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label class="form-label" for="username">Username</label>
+                    <input type="text" id="username" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <input type="password" id="password" class="form-input" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Login</button>
+            </form>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboard-section" class="admin-container hidden">
+            <div class="admin-header">
+                <h2>Admin Dashboard</h2>
+                <button class="btn btn-primary" id="add-event-btn" onclick="showAddForm()">+ Add New Event</button>
+            </div>
+
+            <div style="margin-bottom: 1.5rem; display: flex; gap: 1rem;">
+                <button class="btn btn-primary" id="tab-events" onclick="switchTab('events')">Manage Events</button>
+                <button class="btn" style="background-color: var(--secondary);" id="tab-bookings" onclick="switchTab('bookings')">Manage Bookings</button>
+            </div>
+            
+            <div id="event-form-container" class="hidden" style="margin-bottom: 2rem; padding: 1.5rem; border: 1px solid var(--gray-light); border-radius: 8px;">
+                <h3 id="form-title" style="margin-bottom: 1rem;">Add Event</h3>
+                <form id="event-form" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <input type="hidden" id="edit-id">
+                    <div class="form-group">
+                        <label class="form-label">Title</label>
+                        <input type="text" id="ev-title" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Date</label>
+                        <input type="date" id="ev-date" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Time</label>
+                        <input type="text" id="ev-time" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Location</label>
+                        <input type="text" id="ev-location" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Price ($)</label>
+                        <input type="number" id="ev-price" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Capacity</label>
+                        <input type="number" id="ev-capacity" class="form-input" value="50" required>
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label class="form-label">Image URL</label>
+                        <input type="text" id="ev-image" class="form-input" required>
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label class="form-label">Description</label>
+                        <textarea id="ev-desc" class="form-input" rows="3" required></textarea>
+                    </div>
+                    <div style="grid-column: span 2; display: flex; gap: 1rem; justify-content: flex-end;">
+                        <button type="button" class="btn" style="background-color: var(--secondary);" onclick="hideForm()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Event</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Events Table -->
+            <div id="events-table-container" style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Date</th>
+                            <th>Price</th>
+                            <th>Capacity</th>
+                            <th>Booked</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-events-list">
+                        <!-- Events populated here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Bookings Table -->
+            <div id="bookings-table-container" class="hidden" style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Receipt ID</th>
+                            <th>Participant</th>
+                            <th>Email</th>
+                            <th>Event Title</th>
+                            <th>Date</th>
+                            <th>Amount Due</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-bookings-list">
+                        <!-- Bookings populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script src="admin.js"></script>
+</body>
+
+</html>

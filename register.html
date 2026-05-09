@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Gather&Go</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <nav>
+        <a href="index.html" class="logo">Gather&Go</a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="events.html" class="nav-link">Events</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="form-container">
+            <h2 style="margin-bottom: 1.5rem; text-align: center;">Participant Registration</h2>
+            <p id="selected-event-title"
+                style="text-align: center; color: var(--primary); margin-bottom: 2rem; font-weight: 600;"></p>
+
+            <form id="registration-form">
+                <div class="form-group">
+                    <label class="form-label" for="name">Full Name</label>
+                    <input type="text" id="name" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="email">Email Address</label>
+                    <input type="email" id="email" class="form-input" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" title="Please enter a valid email address">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="phone">Phone Number</label>
+                    <input type="tel" id="phone" class="form-input" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Register & Get Receipt</button>
+            </form>
+        </div>
+
+        <!-- OTP Modal -->
+        <div id="otp-modal" class="modal hidden">
+            <div class="modal-content form-container" style="max-width: 400px; margin: 10% auto;">
+                <h3 style="text-align: center; margin-bottom: 1rem;">Verify Email Address</h3>
+                <p style="text-align: center; color: var(--text-muted); margin-bottom: 1.5rem;">For security purposes, please enter the OTP sent to your email address.</p>
+                <form id="otp-form">
+                    <div class="form-group">
+                        <label class="form-label" for="otp-input">Enter OTP</label>
+                        <input type="text" id="otp-input" class="form-input" required pattern="[0-9]{6}" title="6-digit OTP">
+                    </div>
+                    <div style="display: flex; gap: 1rem; justify-content: space-between;">
+                        <button type="button" class="btn" style="background-color: var(--secondary);" onclick="closeOtpModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Verify & Complete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

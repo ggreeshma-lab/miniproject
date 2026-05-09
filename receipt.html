@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt - Gather&Go</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <nav>
+        <a href="index.html" class="logo">Gather&Go</a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="events.html" class="nav-link">Events</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="receipt">
+            <div class="success-icon">✓</div>
+            <h1 style="font-size: 2rem; margin-bottom: 0.5rem;">Registration Successful!</h1>
+            <p style="color: var(--text-muted);">Your spot has been confirmed.</p>
+
+            <div class="receipt-details">
+                <div class="detail-row">
+                    <span class="detail-label">Receipt ID</span>
+                    <span class="detail-value" id="receipt-id">...</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Participant</span>
+                    <span class="detail-value" id="participant-name">...</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Event</span>
+                    <span class="detail-value" id="event-name">...</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Date</span>
+                    <span class="detail-value" id="event-date">...</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Total Due</span>
+                    <span class="detail-value" id="total-due" style="color: var(--success);">...</span>
+                </div>
+            </div>
+
+            <div id="qrcode" style="display: flex; justify-content: center; margin: 2rem 0;"></div>
+
+            <a href="index.html" class="btn btn-primary">Back to Home</a>
+        </div>
+    </main>
+
+    <script src="qrcode.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
